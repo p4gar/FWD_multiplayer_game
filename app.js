@@ -2,7 +2,18 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const { createPool } = require('mysql');
+
+// parses incoming request bodies and makes them available as objects in the req
+const bodyParser = require('body-parser');
+
+
+// encryption package
 const bcrypt = require('bcrypt');
+
+// session package
+const session = require('express-session');
+
+// multiplayer packages
 const { Server } = require('socket.io');
 const http = require('http');
 
@@ -28,6 +39,17 @@ app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// body parser
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// use session
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: true
+}));
+
 // Routes
 app.get('/login', (req, res) => {
     const success = req.query.success === 'true'; // Check if registration was successful
@@ -39,6 +61,12 @@ app.get('/login', (req, res) => {
 app.get('/register', (req, res) => {
     res.render('register');
 });
+
+app.get('/index', (req, res)=> {
+    if(req.session.user){
+        res.render('index', {user: req.session.user});
+    }
+})
 
 // Login Route
 app.post('/login', (req, res) => {
@@ -66,7 +94,8 @@ app.post('/login', (req, res) => {
             }
 
             if (isMatch) {
-                res.render('index');
+                req.session.user = username;
+                res.redirect('/index');
             } else {
                 // Render the login page with an error message for invalid credentials
                 res.redirect(`/login?message=true`);
@@ -96,6 +125,11 @@ app.post('/register', (req, res) => {
         });
     });
 });
+
+app.get('/logout', (req, res) => {
+    req.session.destroy;
+    res.redirect('/login');
+})
 
 // Start the server
 app.listen(3000, function () {
