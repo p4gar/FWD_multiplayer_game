@@ -1,0 +1,32 @@
+html
+  head
+    link(rel="stylesheet" href="logincss.css")
+    title Login
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        if (#{success}) {
+          alert('Registration successful! Please log in.');
+          success = false;
+        }
+        if(#{message}) {
+          alert('login failed!');
+          message = false;
+        } 
+        
+      });
+  body
+    .form-container
+      img.homepage-logo(src="Josh_Logo-01.png")
+      form(action="/login" method="POST")
+        div
+          label(for="username") Username:
+          input(type="text" id="username" name="username" required)
+        div
+          label(for="password") Password:
+          input(type="password" id="password" name="password" required)
+        div
+          button(type="submit") Login
+        div 
+          p Don't have an account? 
+          a(href="/register") Register here
+

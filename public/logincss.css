@@ -1,0 +1,78 @@
+body {
+    background-image: url("1175594.png");
+    background-size: fill;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.form-container {
+    width: 400px;
+    /* Set the width of the box */
+    margin: 100px auto;
+    /* Center the box on the page */
+    padding: 20px;
+    /* Add some padding inside the box */
+    border: 1px solid #ccc;
+    /* Add a border */
+    border-radius: 10px;
+    /* Round the corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    /* Add a subtle shadow */
+    background-color: #f9f9f9;
+    /* Set a light background color */
+}
+
+
+.homepage-logo {
+    display: block;
+    /* Makes the image a block-level element */
+    margin-left: auto;
+    margin-right: auto;
+    height: 100px;
+    width: auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+p {
+    margin-top: 15px;
+    text-align: left;
+}
+
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

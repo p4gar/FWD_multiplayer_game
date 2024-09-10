@@ -1,0 +1,40 @@
+html
+  head
+    link(rel="stylesheet" href="logincss.css")
+    title Register
+    script.
+      function validateForm(event) {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const passwordMatch = document.getElementById('password-match');
+
+        if (password !== confirmPassword) {
+          event.preventDefault(); // Prevent form submission
+          alert('Passwords do not match');
+          passwordMatch.value = 'false';
+        } else {
+          passwordMatch.value = 'true';
+        }
+
+
+
+      }
+  body
+    .form-container
+      img.homepage-logo(src="Josh_Logo-01.png")
+      form(action="/register" method="POST" onsubmit="validateForm(event)") 
+        div
+          label(for="username") Username:
+          input(type="text" id="username" name="username" required)
+        div
+          label(for="password") Password:
+          input(type="password" id="password" name="password" required)
+        div
+          label(for="confirm-password") Confirm Password:
+          input(type="password" id="confirm-password" name="confirm-password" required)
+          input(type="hidden" id="password-match" name="password-match" value="")
+        div
+          br
+          button(type="submit") Register
+          br
+          button(onclick="window.location.href='/login'") Back
