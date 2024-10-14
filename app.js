@@ -68,7 +68,11 @@ app.get('/index', (req, res)=> {
     }
 })
 
-// Login Route
+app.get('/game', (req,res) => {
+    res.render('game');
+})
+
+// Login logic
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
@@ -105,7 +109,7 @@ app.post('/login', (req, res) => {
 });
 
 
-// Register Route
+// Register logic
 app.post('/register', (req, res) => {
     const { username, password } = req.body;
     // Proceed with hashing the password and inserting into the database
@@ -126,6 +130,7 @@ app.post('/register', (req, res) => {
     });
 });
 
+// logout button
 app.get('/logout', (req, res) => {
     req.session.destroy;
     res.redirect('/login');
