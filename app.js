@@ -166,7 +166,8 @@ app.get('/api/get-questions/:id', (req, res) => {
             answers: [
                 { text: row.answer_1, correct: row.answer_1 === row.correct_answer },
                 { text: row.answer_2, correct: row.answer_2 === row.correct_answer },
-                { text: row.answer_3, correct: row.answer_3 === row.correct_answer }
+                { text: row.answer_3, correct: row.answer_3 === row.correct_answer },
+                { text: row.correct_answer, correct: row.correct_answer === row.correct_answer }
             ]
         }));
 

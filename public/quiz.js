@@ -8,14 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
     let score = 0;
 
     // Get levelNumber from localStorage
-    // const levelNumber = localStorage.getItem('levelNumber');
-    const levelNumber = 1;
+    const levelNumber = localStorage.getItem('levelNumber');
+    // const levelNumber = 1;
 
     // Fetch questions from the backend based on levelNumber
     async function fetchQuestions() {
         try {
             const response = await fetch(`/api/get-questions/${levelNumber}`);
-            console.log(await response.text()); // Log the raw response for debugging
             questions = await response.json(); // Save questions to global array
             startQuiz(); // Start the quiz after fetching questions
         } catch (error) {
@@ -37,8 +36,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const currentQuestion = questions[currentQuestionIndex];
         questionElement.innerText = currentQuestion.question;
 
-        // Populate answer buttons
-        currentQuestion.answers.forEach(answer => {
+        // Shuffle the answers array to randomize answer options
+        const shuffledAnswers = shuffleArray(currentQuestion.answers);
+
+        // Populate answer buttons with shuffled answers
+        shuffledAnswers.forEach(answer => {
             const button = document.createElement("button");
             button.innerText = answer.text;
             button.classList.add("btn");
@@ -48,6 +50,11 @@ document.addEventListener("DOMContentLoaded", function () {
             button.addEventListener("click", selectAnswer);
             answerButtonsElement.appendChild(button);
         });
+    }
+
+    // Function to shuffle an array
+    function shuffleArray(array) {
+        return array.sort(() => Math.random() - 0.5);
     }
 
     function resetState() {
