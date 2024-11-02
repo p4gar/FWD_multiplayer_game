@@ -75,5 +75,33 @@ body {
     border-radius: 5px;
     transition: background-color 0.3s ease;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    
+}
+
+/* Centering the levels list */
+.levels-list {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.levels-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.levels-list ul li {
+    margin: 10px 0;
+}
+
+.level-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;  /* Larger padding for bigger buttons */
+    font-size: 20px;     /* Bigger font size */
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;  /* Rounded corners */
+}
+
+.level-button:hover {
+    background-color: #45a049;
 }

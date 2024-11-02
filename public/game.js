@@ -1,4 +1,6 @@
 var errors = 0;
+var score = 0;
+
 
 var cardList = [
     "darkness",
@@ -24,6 +26,10 @@ var card2Selected;
 window.onload = function () {
     shuffleCards();
     startGame();
+    const levelNumber = getQueryParam('level'); // Retrieve the level number from the URL
+    if (levelNumber) {
+        localStorage.setItem('levelNumber', levelNumber);        
+    }
 }
 
 function shuffleCards() {
@@ -35,7 +41,6 @@ function shuffleCards() {
         cardSet[i] = cardSet[j];
         cardSet[j] = temp;
     }
-    console.log(cardSet);
 }
 
 function startGame() {
@@ -56,8 +61,7 @@ function startGame() {
         }
         board.push(row);
     }
-    console.log(board);
-    setTimeout(hideCards, 3000);
+    setTimeout(hideCards, 2000);
 }
 
 function hideCards() {
@@ -93,13 +97,54 @@ function selectCards() {
 }
 
 function update() {
+    const card1Filename = card1Selected.src.split('/').pop();
+    const card2Filename = card2Selected.src.split('/').pop();
     if (card1Selected.src != card2Selected.src) {
         card1Selected.src = "pokemon-cards/back.jpg";
         card2Selected.src = "pokemon-cards/back.jpg";
         errors += 1;
+        if (score > 0) {
+            score -= 50;
+        }
         document.getElementById("errors").innerText = errors;
+        document.getElementById("score").innerText = score;
+    }
+    if (card1Filename === card2Filename) {
+        score += 300;
+        document.getElementById("score").innerText = score;
     }
     // reset both card 1 and card 2;
     card1Selected = null;
     card2Selected = null;
+
+    checkGameComplete();
+}
+
+function checkGameComplete() {
+    let allFlipped = true;
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+            let card = document.getElementById(r.toString() + "-" + c.toString());
+            if (card.src.includes("back")) {
+                allFlipped = false;
+                break;
+            }
+        }
+        if (!allFlipped) break;
+    }
+
+    if (allFlipped) {
+        // Game is complete, show message
+        setTimeout(() => {
+            alert("Congratulations! You've matched all cards.");
+            window.location.href = `/quiz`;
+        }, 500);
+    }
+}
+
+
+
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
 }

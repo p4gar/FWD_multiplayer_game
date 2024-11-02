@@ -4,7 +4,11 @@ html
         script(src="game.js")
         title Python Memory Card Game 
     body 
+
+        h1 Score: 
+            span#score 0
         h2 Errors: 
             span#errors 0
         #board
-        
+        script.
+            var username = !{JSON.stringify(user)};

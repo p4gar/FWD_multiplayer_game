@@ -1,6 +1,7 @@
 html 
     head 
     link(rel='stylesheet' href='indexcss.css')
+    script(src='level.js')
     title Python Memory Card Game 
     body 
         header
@@ -11,6 +12,8 @@ html
             .logout-button
                 a(href='/logout') Logout
         .play-button
-                button(onclick='window.location.href="/start-game"') Play Now
+            button(id='play-button' onclick='fetchLevels()') Play Now
+        .levels-list(style='display:none')
+            ul#levels-ul
         
 
