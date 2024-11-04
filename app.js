@@ -176,6 +176,37 @@ app.get('/api/get-questions/:id', (req, res) => {
 });
 
 
+// Save score
+app.post('/api/save-score', (req, res) => {
+    // Ensure user is logged in
+    if (!req.session.user) {
+        return res.status(401).send({ message: 'Unauthorized: Please log in to save scores' });
+    }
+
+    const username = req.session.user; // Get username from session
+    const { level_name, score_value } = req.body;
+
+    // Validate inputs
+    if (!level_name || score_value === undefined) {
+        return res.status(400).send({ message: 'Invalid input: level_name and score_value are required' });
+    }
+
+    const query = `
+        INSERT INTO score (username, level_name, score_value)
+        VALUES (?, ?, ?)
+    `;
+
+    pool.query(query, [username, level_name, score_value], (err, result) => {
+        if (err) {
+            console.error('Error saving score:', err);
+            return res.status(500).send({ message: 'Error saving score' });
+        }
+        res.status(201).send({ message: 'Score saved successfully' });
+    });
+});
+
+
+
 
 // Start the server
 app.listen(3000, function () {

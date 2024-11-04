@@ -138,6 +138,8 @@ function checkGameComplete() {
         setTimeout(() => {
             alert("Congratulations! You've matched all cards.");
             window.location.href = `/quiz`;
+            localStorage.setItem('game_score', score);        
+            localStorage.setItem('errors', errors);        
         }, 500);
     }
 }

@@ -77,4 +77,23 @@ body {
     color: white;
 }
 
+#final-score {
+    font-size: 18px;               /* Same font size as h2 */
+    color: #001e4d;               /* Same color as h2 */
+    font-weight: 600;             /* Same font weight as h2 */
+    padding: 20px 0;              /* Add padding for spacing */
+}
+
+#back-btn{
+    background: #001e4d;
+    color: #fff;
+    font-weight: 500;
+    width: 150px;
+    border: 0;
+    padding: 10px;
+    margin: 20px auto 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 

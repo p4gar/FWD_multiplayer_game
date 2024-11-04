@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Get levelNumber from localStorage
     const levelNumber = localStorage.getItem('levelNumber');
-    // const levelNumber = 1;
 
     // Fetch questions from the backend based on levelNumber
     async function fetchQuestions() {
@@ -117,12 +116,52 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function endQuiz() {
-        questionElement.innerText = `Quiz finished! Your score: ${score}/${questions.length}`;
         answerButtonsElement.innerHTML = "";
         nextButton.style.display = "none"; // Hide the next button when the quiz ends
+        document.getElementById("back-btn").style.display = "block"; // Show the back button
+
+        const game_score = parseInt(localStorage.getItem('game_score')) || 0;
+        const errors = parseInt(localStorage.getItem('errors')) || 0;
+        const score_percentage = (score / questions.length) * 100;
+        const penalty = errors * 50;
+
+        const finalScore = game_score + score_percentage - penalty;
+
+        questionElement.innerText = `Quiz finished! Your score: ${score}/${questions.length}
+        Final score: ${finalScore}`;
+
+        const data = {
+            username: localStorage.getItem('username'), 
+            level_name: levelNumber,
+            score_value: Math.round(finalScore) 
+        };
+
+        fetch('/api/save-score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Score saved:', data.message);
+            })
+            .catch(error => {
+                console.error('Error saving score:', error);
+            });
     }
 
     nextButton.addEventListener("click", handleNextQuestion); // Handle going to the next question
+
+    document.getElementById("back-btn").addEventListener("click", function () {
+        window.location.href = "/index"; // Redirect to index.pug
+    });
 
     // Fetch questions and start quiz
     fetchQuestions();
