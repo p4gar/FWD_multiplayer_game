@@ -58,7 +58,8 @@ app.get('/index', (req, res) => {
 // Game route
 app.get('/game', (req, res) => {
     if (req.session.user) {
-        res.render('game', { user: req.session.user });
+        const mode = req.query.mode; // Get the mode from the query parameters
+        res.render('game', { user: req.session.user, mode });
     } else {
         res.redirect('/login');
     }

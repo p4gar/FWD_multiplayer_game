@@ -5,10 +5,24 @@ html
         title Python Memory Card Game 
     body 
 
-        h1 Score: 
-            span#score 0
-        h2 Errors: 
-            span#errors 0
+        .container
+            if mode === 'single'
+                h1 Score: 
+                    span#score 0
+                h2 Errors: 
+                    span#errors 0
+            if mode === 'multi'
+                h1 Player 1 Score: 
+                    span#score 0
+                h2 Player 1 Errors: 
+                    span#errors 0  
+                h1 Player 2 Score:
+                    span#score2 0
+                h2 Player 2 Errors: 
+                    span#errors2 0
         #board
-        script.
-            var username = !{JSON.stringify(user)};
+        #turnModal.modal
+            .modal-content
+                p Choose Player:
+                button#player1Btn Player 1
+                button#player2Btn Player 2

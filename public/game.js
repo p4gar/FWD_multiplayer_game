@@ -1,6 +1,9 @@
 var errors = 0;
 var score = 0;
-
+var player2errors = 0;
+var player2score = 0;
+var currentPlayer = 1;
+var mode;
 
 var cardList = [
     "darkness",
@@ -13,7 +16,7 @@ var cardList = [
     "metal",
     "psychic",
     "water"
-]
+];
 
 var cardSet;
 var board = [];
@@ -26,17 +29,22 @@ var card2Selected;
 window.onload = function () {
     shuffleCards();
     startGame();
-    const levelNumber = getQueryParam('level'); // Retrieve the level number from the URL
+    const levelNumber = getQueryParam('level');
+    mode = getQueryParam('mode');
     if (levelNumber) {
         localStorage.setItem('levelNumber', levelNumber);        
+    }
+    if (mode === 'single') {
+        document.getElementById("turnModal").style.display = "none";
+    } else if (mode === 'multi') {
+        showTurnModal();
     }
 }
 
 function shuffleCards() {
     cardSet = cardList.concat(cardList);
-    // shuffling logic
     for (let i = 0; i < cardSet.length; i++) {
-        let j = Math.floor(Math.random() * cardSet.length); // get random index
+        let j = Math.floor(Math.random() * cardSet.length);
         let temp = cardSet[i];
         cardSet[i] = cardSet[j];
         cardSet[j] = temp;
@@ -44,14 +52,12 @@ function shuffleCards() {
 }
 
 function startGame() {
-    // arrange the board on a 4x5
     for (let r = 0; r < rows; r++) {
         let row = [];
         for (let c = 0; c < columns; c++) {
             let cardImg = cardSet.pop();
             row.push(cardImg);
 
-            // creates a dynamic card element in html
             let card = document.createElement("img");
             card.id = r.toString() + "-" + c.toString();
             card.src = "pokemon-cards/" + cardImg + ".jpg";
@@ -99,24 +105,48 @@ function selectCards() {
 function update() {
     const card1Filename = card1Selected.src.split('/').pop();
     const card2Filename = card2Selected.src.split('/').pop();
+
     if (card1Selected.src != card2Selected.src) {
+        // Not a match: revert the cards and apply error/penalty points
         card1Selected.src = "pokemon-cards/back.jpg";
         card2Selected.src = "pokemon-cards/back.jpg";
-        errors += 1;
-        if (score > 0) {
-            score -= 50;
+
+        if (currentPlayer === 1) {
+            errors += 1;
+            document.getElementById("errors").innerText = errors;
+            if (score > 0) {
+                score -= 50;
+                document.getElementById("score").innerText = score;
+            }
+        } else {
+            player2errors += 1;
+            document.getElementById("errors2").innerText = player2errors;
+            if (player2score > 0) {
+                player2score -= 50;
+                document.getElementById("score2").innerText = player2score;
+            }
         }
-        document.getElementById("errors").innerText = errors;
-        document.getElementById("score").innerText = score;
+    } else {
+        // Match found: reward points
+        if (currentPlayer === 1) {
+            score += 300;
+            document.getElementById("score").innerText = score;
+        } else {
+            player2score += 300;
+            document.getElementById("score2").innerText = player2score;
+        }
     }
-    if (card1Filename === card2Filename) {
-        score += 300;
-        document.getElementById("score").innerText = score;
-    }
-    // reset both card 1 and card 2;
+
+    // Reset selected cards
     card1Selected = null;
     card2Selected = null;
 
+    // Switch players only if in multiplayer mode
+    if (mode === 'multi') {
+        showTurnModal();  // Show modal for player switch
+    }
+
+    // Check if the game is complete
     checkGameComplete();
 }
 
@@ -134,17 +164,32 @@ function checkGameComplete() {
     }
 
     if (allFlipped) {
-        // Game is complete, show message
         setTimeout(() => {
             alert("Congratulations! You've matched all cards.");
             window.location.href = `/quiz`;
-            localStorage.setItem('game_score', score);        
-            localStorage.setItem('errors', errors);        
+            localStorage.setItem('game_score', score);
+            localStorage.setItem('errors', errors);
+            localStorage.setItem('player2_score', player2score);
+            localStorage.setItem('player2_errors', player2errors);
         }, 500);
     }
 }
 
+function showTurnModal() {
+    const turnModal = document.getElementById("turnModal");
+    turnModal.style.display = "block";
 
+    // Set up event listeners for each player's button
+    document.getElementById("player1Btn").onclick = function () {
+        currentPlayer = 1;
+        turnModal.style.display = "none";
+    };
+
+    document.getElementById("player2Btn").onclick = function () {
+        currentPlayer = 2;
+        turnModal.style.display = "none";
+    };
+}
 
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);

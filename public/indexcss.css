@@ -1,14 +1,39 @@
+/* import source code pro font */
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200,900');
+
 /* General styles */
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Courier New', Courier, monospace;
     background-image: url("homepage.gif");
-    background-size: cover; /* Ensures the background covers the entire screen */
+    background-size: cover;
+    /* Ensures the background covers the entire screen */
     background-repeat: no-repeat;
     background-position: center;
-    min-height: 100vh; /* Ensures the background covers at least the full height of the viewport */
+    min-height: 100vh;
+    /* Ensures the background covers at least the full height of the viewport */
+    position: relative;
+    /* Make body a positioning context for the pseudo-element */
 }
 
+body::before {
+    content: "";
+    /* Creates an empty pseudo-element */
+    position: absolute;
+    /* Position it absolutely within the body */
+    top: 0;
+    /* Align to the top */
+    left: 0;
+    /* Align to the left */
+    right: 0;
+    /* Stretch to the right */
+    bottom: 0;
+    /* Stretch to the bottom */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Dark overlay with 50% opacity */
+    z-index: -1;
+    /* Place it behind the content */
+}
 
 
 .container {
@@ -35,11 +60,12 @@ body {
     font-size: 24px;
     text-align: center;
     flex-grow: 1;
+    font-family: 'Courier New', Courier, monospace
 }
 
 .logout-button {
-    /* Shift the button slightly to the left using margin */
     margin-right: 10px;
+    /* Shift the button slightly to the left using margin */
 }
 
 /* Logout button styles */
@@ -54,25 +80,6 @@ body {
 
 .logout-button a:hover {
     background-color: #0056b3;
-}
-
-.play-button {
-    text-align: center;
-    /* position:fixed; */
-    top: 50%;
-}
-
-.play-button button {
-    background: #001e4d;
-    color: #fff;
-    font-weight: 500;
-    width: 150px;
-    border: 0;
-    padding: 10px;
-    margin: 20px auto 0;
-    border-radius: 4px;
-    cursor: pointer;
-    display: block;
 }
 
 /* Centering the levels list */
@@ -91,18 +98,143 @@ body {
 }
 
 .level-button {
-    background: #001e4d;
+    width: 80%;
+    height: 60px;
+    border: none;
+    outline: none;
     color: #fff;
-    font-weight: 500;
-    width: 150px;
-    border: 0;
-    padding: 10px;
-    margin: 20px auto 0;
-    border-radius: 4px;
+    background: #111;
     cursor: pointer;
-    display: block;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    font-family: "Source Code Pro";
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 30px;
 }
 
-.level-button:hover {
-    background-color: #45a049;
+.level-button:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.level-button:active {
+    color: #000
+}
+
+.level-button:active::after {
+    background: transparent;
+}
+
+.level-button:hover::before {
+    opacity: 1;
+}
+
+.level-button:hover::after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.play-button {
+    display: flex;
+    /* Enable Flexbox for centering */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    position: absolute;
+    /* Position it in the viewport */
+    top: 50%;
+    /* Move down to the center of the viewport */
+    left: 50%;
+    /* Move right to the center of the viewport */
+    transform: translate(-50%, -50%);
+    /* Adjust position to center */
+    box-sizing: border-box;
+    /* Include padding in the total width and height */
+    z-index: 1;
+    /* Ensure it's on top of the container */
+}
+
+.play-button button {
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 36px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #FFA12B;
+    display: block;
+    position: relative;
+    padding: 20px 40px;
+
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    text-shadow: 0px 1px 0px #000;
+    filter: dropshadow(color=#000, offx=0px, offy=1px);
+
+    -webkit-box-shadow: inset 0 1px 0 #FFE5C4, 0 10px 0 #915100;
+    -moz-box-shadow: inset 0 1px 0 #FFE5C4, 0 10px 0 #915100;
+    box-shadow: inset 0 1px 0 #FFE5C4, 0 10px 0 #915100;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.play-button button:active {
+    top: 10px;
+    background-color: #F78900;
+
+    -webkit-box-shadow: inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
+    -moz-box-shadow: inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
+    box-shadow: inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
+}
+
+.play-button button:after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    padding: 4px;
+    position: absolute;
+    bottom: -15px;
+    left: -4px;
+    z-index: -1;
+    background-color: #2B1800;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }

@@ -1,6 +1,18 @@
 function fetchLevels() {
     // Hide the play button
     document.getElementById('play-button').style.display = 'none';
+    // Create a text element for the title
+    const text = document.createElement('div');
+    text.innerHTML = 'Python Quizzes';
+    text.style.textAlign = 'center'; // Center the text
+    text.style.fontSize = '30px'; // Set font size
+    text.style.color = 'white'; // Set text color
+    text.style.margin = '20px 0'; // Add some margin around it
+    text.style.fontFamily = 'Source Code Pro';
+    
+    const levelsContainer = document.querySelector('.levels-list');
+    levelsContainer.insertBefore(text, levelsContainer.firstChild); // Insert the text at the top
+
 
     // Fetch the levels from the server
     fetch('/api/get-levels')
@@ -11,6 +23,7 @@ function fetchLevels() {
 
             // Show the levels list container
             levelsContainer.style.display = 'block';
+
 
             // Populate the levels list
             levels.forEach(level => {
@@ -34,7 +47,17 @@ function fetchLevels() {
 }
 
 function selectLevel(levelNumber) {
-    alert(`You selected Level ${levelNumber}`);
-    window.location.href = `/game?level=${levelNumber}`;
+    // Prompt user to choose game mode
+    const mode = confirm("Press OK for Single Player or Cancel for Multiplayer.");
+
+    if (mode) {
+        // User chose Single Player
+        alert(`You selected Level ${levelNumber} in Single Player mode`);
+        window.location.href = `/game?level=${levelNumber}&mode=single`;
+    } else {
+        // User chose Multiplayer
+        alert(`You selected Level ${levelNumber} in Multiplayer mode`);
+        window.location.href = `/game?level=${levelNumber}&mode=multi`;
+    }
 }
 
