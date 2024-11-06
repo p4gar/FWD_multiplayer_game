@@ -15,11 +15,17 @@ html
             button(id='play-button' onclick='fetchLevels()') Play Now
         .levels-list(style='display:none')
             ul#levels-ul
+        #gameModeModal.modal 
+            .modal-content
+                h4 Select Game Mode
+                p Please choose the game mode:
+                button#singlePlayerBtn Single Player
+                button#multiPlayerBtn Multiplayer
         script.
             // Set username in localStorage if it’s not already set
             const username = "#{user}";
             if (!localStorage.getItem('username')) {
                 localStorage.setItem('username', username);
             }
-        
+
 

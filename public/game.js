@@ -29,15 +29,21 @@ var card2Selected;
 window.onload = function () {
     shuffleCards();
     startGame();
+
     const levelNumber = getQueryParam('level');
     mode = getQueryParam('mode');
+
     if (levelNumber) {
-        localStorage.setItem('levelNumber', levelNumber);        
+        localStorage.setItem('levelNumber', levelNumber);
     }
+
     if (mode === 'single') {
         document.getElementById("turnModal").style.display = "none";
+        document.getElementById("nameModal").style.display = "none";
+
+        setTimeout(hideCards, 5000);
     } else if (mode === 'multi') {
-        showTurnModal();
+        showNameInputModal(); // Show the player name input modal first
     }
 }
 
@@ -67,7 +73,6 @@ function startGame() {
         }
         board.push(row);
     }
-    setTimeout(hideCards, 2000);
 }
 
 function hideCards() {
@@ -163,16 +168,47 @@ function checkGameComplete() {
         if (!allFlipped) break;
     }
 
-    if (allFlipped) {
+    if (allFlipped && mode === 'single') {
         setTimeout(() => {
             alert("Congratulations! You've matched all cards.");
             window.location.href = `/quiz`;
             localStorage.setItem('game_score', score);
             localStorage.setItem('errors', errors);
-            localStorage.setItem('player2_score', player2score);
-            localStorage.setItem('player2_errors', player2errors);
         }, 500);
     }
+    if(allFlipped && mode === 'multi'){
+        if(score > player2score){
+            alert(player1Name + " has won the game!");
+            window.location.href = `/index`;
+        } else {
+            alert(player2Name + " has won the game!");
+            window.location.href = `/index`;
+        }
+    }
+}
+
+function showNameInputModal() {
+    const nameModal = document.getElementById("nameModal");
+    const turnModal = document.getElementById("turnModal");
+
+    nameModal.style.display = "block";
+    turnModal.style.display = "none";
+
+    // Handle name submission
+    document.getElementById("submitNames").onclick = function () {
+        // Get names from input fields or default values if blank
+        player1Name = document.getElementById("player1Input").value || "Player 1";
+        player2Name = document.getElementById("player2Input").value || "Player 2";
+
+        // Display player names on the board
+        document.getElementById("player1Name").textContent = player1Name;
+        document.getElementById("player2Name").textContent = player2Name;
+
+        // Hide the name input modal and start the game
+        nameModal.style.display = "none";
+        showTurnModal();
+        setTimeout(hideCards, 5000);
+    };
 }
 
 function showTurnModal() {
@@ -195,3 +231,6 @@ function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
 }
+
+
+

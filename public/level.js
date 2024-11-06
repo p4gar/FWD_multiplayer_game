@@ -89,17 +89,34 @@ function fetchLevels() {
 
 
 function selectLevel(levelNumber) {
-    // Prompt user to choose game mode
-    const mode = confirm("Press OK for Single Player or Cancel for Multiplayer.");
+    // Display the modal
+    const modal = document.getElementById('gameModeModal');
+    modal.style.display = 'block';
 
-    if (mode) {
-        // User chose Single Player
+    // Get buttons for selecting the game mode
+    const singlePlayerBtn = document.getElementById('singlePlayerBtn');
+    const multiPlayerBtn = document.getElementById('multiPlayerBtn');
+
+    // Handle Single Player selection
+    singlePlayerBtn.onclick = () => {
         alert(`You selected Level ${levelNumber} in Single Player mode`);
         window.location.href = `/game?level=${levelNumber}&mode=single`;
-    } else {
-        // User chose Multiplayer
+        modal.style.display = 'none';  // Close modal
+    };
+
+    // Handle Multiplayer selection
+    multiPlayerBtn.onclick = () => {
         alert(`You selected Level ${levelNumber} in Multiplayer mode`);
         window.location.href = `/game?level=${levelNumber}&mode=multi`;
-    }
+        modal.style.display = 'none';  // Close modal
+    };
+
+    // Close modal if clicked outside
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
 }
+
 

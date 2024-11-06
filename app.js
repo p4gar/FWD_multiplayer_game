@@ -224,7 +224,6 @@ app.get('/api/score', (req, res) => {
             return res.status(500).json({ error: 'Database error' });
         }
 
-        console.log('Database query results:', results); // Log the raw query results
 
         // Check if there’s a result
         if (results.length > 0) {

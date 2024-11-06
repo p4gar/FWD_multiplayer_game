@@ -1,10 +1,9 @@
-html 
+html
     head 
         link(rel="stylesheet" href="game.css")
         script(src="game.js")
         title Python Memory Card Game 
     body 
-
         .container
             if mode === 'single'
                 h1 Score: 
@@ -12,17 +11,28 @@ html
                 h2 Errors: 
                     span#errors 0
             if mode === 'multi'
-                h1 Player 1 Score: 
+                h1 #[span#player1Name Player 1] Score: 
                     span#score 0
-                h2 Player 1 Errors: 
+                h2 #[span#player1Name] Errors: 
                     span#errors 0  
-                h1 Player 2 Score:
+                h1 #[span#player2Name Player 2] Score:
                     span#score2 0
-                h2 Player 2 Errors: 
+                h2 #[span#player2Name] Errors: 
                     span#errors2 0
         #board
+        #nameModal.modal
+            .modal-content
+                h2 Enter Player Names
+                label(for="player1Input") Player 1 Name:
+                input#player1Input(type="text" placeholder="Player 1")
+                label(for="player2Input") Player 2 Name:
+                input#player2Input(type="text" placeholder="Player 2")
+                button#submitNames Submit
         #turnModal.modal
             .modal-content
                 p Choose Player:
-                button#player1Btn Player 1
-                button#player2Btn Player 2
+                button#player1Btn #[span#player1Name Player 1]
+                button#player2Btn #[span#player2Name Player 2]
+        
+
+script(src="game.js")
