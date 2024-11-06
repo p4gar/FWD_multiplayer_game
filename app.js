@@ -206,6 +206,36 @@ app.post('/api/save-score', (req, res) => {
     });
 });
 
+app.get('/api/score', (req, res) => {
+    const level_name = req.query.level_name; 
+    const username = req.session.user; 
+
+    const sql = `
+        SELECT score_value AS highest_score
+        FROM score 
+        WHERE level_name = ? AND username = ? 
+        ORDER BY score_value DESC 
+        LIMIT 1
+    `;
+
+    pool.query(sql, [level_name, username], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+
+        console.log('Database query results:', results); // Log the raw query results
+
+        // Check if there’s a result
+        if (results.length > 0) {
+            res.json({ highest_score: results[0].highest_score });
+        } else {
+            res.json({ highest_score: "N/A" }); // No score found
+        }
+    });
+});
+
+
 
 
 

@@ -88,6 +88,19 @@ body::before {
     margin-top: 30px;
 }
 
+.score-label {
+    margin-bottom: 5px; /* Add spacing between the label and button */
+    font-size: 14px; /* Adjust font size if needed */
+    color: white; /* Set color to match your design */
+}
+
+.score-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px; /* Adjust as needed */
+}
+
 .levels-list ul {
     list-style-type: none;
     padding: 0;
@@ -238,3 +251,4 @@ body::before {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+
