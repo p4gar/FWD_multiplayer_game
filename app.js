@@ -241,5 +241,5 @@ app.get('/api/score', (req, res) => {
 // Start the server
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
-    console.log('Type localhost:3000 to access!');
+    console.log('Type localhost:3000/login to access!');
 });

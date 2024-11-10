@@ -1,14 +1,11 @@
 // Function to fetch and display the highest score for a specific level
 function fetchAndDisplayScore(levelName, scoreLabel) {
-    console.log(`Fetching score for level: ${levelName}`);
 
     fetch(`/api/score?level_name=${levelName}`)
         .then(response => {
-            console.log('Response status:', response.status);
             return response.json(); // Attempt to parse JSON
         })
         .then(data => {
-            console.log('Fetched data:', data);
             // Update the score label with the fetched highest score
             scoreLabel.textContent = `Highest Score: ${data.highest_score || "N/A"}`;
         })
